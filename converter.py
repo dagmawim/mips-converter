@@ -13,7 +13,7 @@ def jType(instruction):
     opcode = insCodes[instruction[0]][0]  # OPCODE
     result.append(bin(opcode)[2:].zfill(6))  # OPCODE
 
-    loc = int(instruction[1]) / 4
+    loc = int(int(instruction[1]) / 4)
     imm = bin(loc)[2:].zfill(26)   # imm
     result.append(imm)             # imm
 
@@ -80,7 +80,7 @@ def iType(instruction):
         result.append(bin(rt)[2:].zfill(5))      # rt
 
         if instruction[0] == 'beq':
-            new_pc = (int(instruction[3]) - 4) / 4
+            new_pc = int((int(instruction[3]) - 4) / 4) # VER
             ba = bin(new_pc)[2:]                     # br_addr
             result.append(ba.zfill(16))              # br_addr
 
@@ -150,7 +150,7 @@ def convertToHex(line):
         old = separated[:]
         separated[0] = 'addi'
         separated[3] = str(-1 * int(separated[3]))
-        print 'taking ', old, 'as ---->', separated
+        print('taking ', old, 'as ---->', separated)
     converted = instructionHandler[separated[0]](separated)
     return converted
 
@@ -159,14 +159,14 @@ def main():
     inp_file = open('input.txt', 'r')
     out_file = open('output.txt', 'w')
     line = inp_file.readline()
-    print 'Converting file ...'
+    print('Converting file ...')
     while line:
         bin_hex = convertToHex(line[:-2])
         # print line[:-2], ' -> ', bin_hex
         out_file.write(line[:-2] + '------>' + str(bin_hex) + '\n')
         line = inp_file.readline()
-    print 'Done ...'
-    print 'Output in output.txt'
+    print('Done ...')
+    print('Output in output.txt')
     inp_file.close()
     out_file.close()
 
